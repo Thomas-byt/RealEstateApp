@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using RealEstateApp.Data.DatabaseContext.ApplicationDbContext;
 using RealEstateApp.Data.DatabaseContext.AuthenticationDbContext;
 
 namespace RealEstateApp.Web
@@ -26,7 +27,14 @@ namespace RealEstateApp.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContextPool<AuthenticationDbContext>(options => 
-            options.UseSqlServer(Configuration.GetConnectionString("AuthenticationConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("AuthenticationConnection")));
+
+            services.AddDbContextPool<ApplicationDbContext>(options => 
+                options.UseSqlServer(Configuration.GetConnectionString("ApplicationDbConnection"),
+                sqlServerOptions => {
+                sqlServerOptions.MigrationsAssembly("RealEstateApp.Data");
+            }));
+
             services.AddControllersWithViews();
         }
 

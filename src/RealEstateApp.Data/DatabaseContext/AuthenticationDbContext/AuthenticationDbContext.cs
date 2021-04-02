@@ -10,5 +10,6 @@ namespace RealEstateApp.Data.DatabaseContext.AuthenticationDbContext
     {
 
     }
+    
     }
 }
